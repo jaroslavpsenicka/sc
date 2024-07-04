@@ -1,0 +1,6 @@
+flask
+tensorflow
+tflite-runtime
+pillow
+numpy
+pandas
