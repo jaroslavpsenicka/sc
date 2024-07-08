@@ -1,5 +1,6 @@
 ## Detekce melanomu
 Služba bere obrázek a vrací pravděpodobnost výskytu jednotlivých typů melanomu.
+Založeno na https://github.com/sotoblanco/skin-cancer-detection.
 
 | Kód | Popis |
 | --- | --- |
