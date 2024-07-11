@@ -18,7 +18,7 @@ val_num = int(len(testing_image_names)*0.5)
 val_image_names = testing_image_names[0:val_num]
 test_image_names = testing_image_names[val_num::]
 
-FilePath = "data/HAM10000_metadata.csv"
+FilePath = "data/metadata.csv"
 df = pd.read_csv(FilePath)
 
 train_df = df.loc[df['image_id'].isin(train_image_names)]
@@ -44,7 +44,7 @@ def make_model(learning_rate, droprate, input_shape, inner_layer):
     vectors = keras.layers.GlobalAveragePooling2D()(base)
     dense = keras.layers.Dense(inner_layer, activation='relu')(vectors)
     dropout = keras.layers.Dropout(droprate)(dense)
-    outputs = keras.layers.Dense(7, activation="linear")(dropout)
+    outputs = keras.layers.Dense(2, activation="linear")(dropout)
 
     model = keras.Model(inputs, outputs)
     
@@ -67,15 +67,15 @@ test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
 train_full_generator = train_datagen.flow_from_dataframe(
     full_train,
     x_col='folder',
-    y_col='dx',
-    target_size=(150, 150),
+    y_col='type',
+    target_size=(200, 200),
 )
 
 test_generator = test_datagen.flow_from_dataframe(
     test_df,
     x_col='folder',
-    y_col='dx',
-    target_size=(150, 150),
+    y_col='type',
+    target_size=(200, 200),
 )
 
 checkpoint = keras.callbacks.ModelCheckpoint(
@@ -86,13 +86,13 @@ checkpoint = keras.callbacks.ModelCheckpoint(
 )
 
 # Set up the early stopping callback with a patience of 5 epochs
-early_stopping = EarlyStopping(monitor='val_loss', patience=5)
+early_stopping = EarlyStopping(monitor='val_loss', patience=10)
 
 learning_rate = 0.001
 size = 25
 
 model = make_model(learning_rate=learning_rate,
-                   droprate=0.0, input_shape=150,
+                   droprate=0.0, input_shape=200,
                    inner_layer=size)
 
 history = model.fit(train_full_generator, epochs=30,
