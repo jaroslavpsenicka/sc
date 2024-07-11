@@ -1,5 +1,7 @@
 ## Detekce melanomu
+
 Služba bere obrázek a vrací pravděpodobnost výskytu zhoubného (malign) nádoru.
+Založeno na https://github.com/sotoblanco/skin-cancer-detection.
 
 ## URL
 Služba běží na http://sc-test.eba-arpy6jtf.eu-west-1.elasticbeanstalk.com
